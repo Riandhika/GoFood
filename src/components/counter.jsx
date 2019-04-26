@@ -1,70 +1,67 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button
-} from "reactstrap";
+    Card,
+    CardImg,
+    CardText,
+    CardBody,
+    CardTitle,
+    CardSubtitle,
+    Button
+  } from "reactstrap";
+  import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+  
 
 export default class Counter extends Component {
-  state = {
-    number: 1,
-    harga: 5000,
-    biaya: 5000
+  state ={
+    qty: 0,
   };
 
-  //ecma script//
-  Nambah = () => {
-    this.setState(({ number,harga, biaya }) => ({
-      number: number + 1,
-      harga: harga+biaya
-    }));
-  };
-
-  Ngurang = () => {
-    var number = this.state.number;
-    if (number >1){
-    this.setState(({ number,harga, biaya  }) => ({
-      number: number - 1,
-      harga: harga-biaya
-    }));
+  nambah =() => {
+    this.setState({
+      qty: this.state.qty + 1
+    })
+    this.props.tambahTotalHarga(this.props.harga)
   }
-  };
+
+  ngurang =() => {
+    if (this.state.qty === 0){
+      return;
+  }
+  this.setState({
+      qty: this.state.qty - 1
+  })
+  this.props.kurangTotalHarga(this.props.harga)
+}
+
 
   render() {
     return (
       <div>
-        <Card style={{ width: "50%" }}>
-          <CardImg
+      <Card style={this.props.ukuran}style={{margin: "10px" }}>
+        <CardImg
             top
             width="100%"
             src={this.props.gambar}
-            alt="nama"
-          />
-          <CardBody align="center">
-            <CardTitle style={{ fontweight: "bold" }}>
-              {this.props.nama}
-            </CardTitle>
-            <CardSubtitle>
-             Pesan Sekarang ?
-            </CardSubtitle>
+            alt="panganan" />
+          <CardBody>
+              <CardTitle>
+                  <h4>{this.props.menu}</h4>
+              </CardTitle>
+              
 
-            <p>pesan berapa</p>
-            <h1>{this.state.number}</h1>
-            <p>Harga: {this.state.harga}</p>
-            
-            <Button onClick={this.Nambah} className="btn btn-success m-2">
-              +
-            </Button>
-            <Button onClick={this.Ngurang} className="btn btn-danger m-2">
-              -
-            </Button>
           </CardBody>
         </Card>
+        <h3>
+                Harga : Rp {this.props.harga}
+              </h3>
+              <div>
+                <Navbar>
+                    <Button onClick={this.nambah} className = "btn btn-success m-2">+</Button>{' '}
+                    <h2 align="center">{this.state.qty}</h2>
+                    <Button onClick={this.ngurang} className = "btn btn-danger m-2">-</Button>{' '}
+                </Navbar>
+              </div>
       </div>
-    );
+    )
   }
 }
